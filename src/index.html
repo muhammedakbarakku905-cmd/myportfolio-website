@@ -5,6 +5,10 @@
   <title>Myportfolio</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Muhammed Akbar MMK - AI/ML Specialist & Full Stack Developer Portfolio">
+  <meta name="keywords" content="AI Engineer, Machine Learning, Java Developer, Full Stack Developer, Portfolio">
+  <meta name="author" content="Muhammed Akbar MMK">
+  
   <!-- AOS Animations -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto:wght@700&display=swap" rel="stylesheet">
@@ -135,11 +139,12 @@
    
   <div class="hero-overlay"></div>
 
-  <div class="hero-text" style="left: 330px;bottom: 20px;">
+  <div class="hero-text">
     <h6 style="text-align: left;">HELLO WELCOME TO MY<span style="color:orange;"> WORLD</span></h6>
-    <h1 style="text-align: left;">Hi,l'm <span style="color: rgb(6, 160, 216);">Muhammed Akbar</span>
-        <h2 style="color: white;text-align: left;">a AI/ML Specialist & FullStack Developer.</h2>
-        <h6 style="text-align: left;">a passionate about building intelligent, scalable, and user-centric applications. I transform ideas into powerful digital solutions using modern technologies and creative problem-solving.</h6></h1>
+    <h1>Hi, I'm <span style="color: rgb(6, 160, 216);">Muhammed Akbar</span></h1>
+<h2>a AI/ML Specialist & Full Stack Developer</h2>
+<p>a passionate developer building intelligent, scalable, and user-centric applications.</p>
+
     <br>
    
 
@@ -307,15 +312,6 @@ const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-});
-
-// Hamburger Menu
-const hamburger = document.querySelector('.hamburger');
-const menu = document.querySelector('.menu');
-
-hamburger.addEventListener('click', () => {
-  menu.classList.toggle('show');
-  hamburger.classList.toggle('open');
 });
 
 // Smooth scrolling for all links
@@ -494,40 +490,92 @@ chatbotHeader.addEventListener('click', () => {
     chatbotBody.style.display = chatbotBody.style.display === 'flex' ? 'none' : 'flex';
 });
 
-// Add message to chat
 function addMessage(text, sender){
     const msg = document.createElement('div');
     msg.classList.add('chatbot-message', sender);
-    msg.textContent = text;
+
+    // Message content
+    const messageText = document.createElement('span');
+    messageText.textContent = text;
+    msg.appendChild(messageText);
+
+    // Timestamp
+    const time = document.createElement('span');
+    time.classList.add('timestamp');
+    const now = new Date();
+    time.textContent = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+    msg.appendChild(time);
+
     chatWindow.appendChild(msg);
     chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
-// Bot logic
+function showTypingIndicator(){
+    const typing = document.createElement('div');
+    typing.classList.add('chatbot-message', 'bot-msg', 'typing');
+    typing.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+    chatWindow.appendChild(typing);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+    return typing;
+}
+
+function sendMessage(){
+    const msg = chatInput.value.trim();
+    if(!msg) return;
+
+    addMessage(msg, 'user-msg');
+    chatInput.value = '';
+
+    const typingIndicator = showTypingIndicator();
+
+    setTimeout(() => {
+        chatWindow.removeChild(typingIndicator);
+        addMessage(botReply(msg), 'bot-msg');
+    }, 1000 + Math.random() * 1000);
+}
+
+chatSend.addEventListener('click', sendMessage);
+chatInput.addEventListener('keypress', e => {
+    if(e.key === 'Enter') sendMessage();
+});
+
+
 function botReply(msg){
     const text = msg.toLowerCase();
 
-    if(text.includes("hello") || text.includes("hi")) 
-        return "Hello! How can I help you?";
+    if(text.includes("hello") || text.includes("hi") || text.includes("hey")) 
+        return "Hello! I'm Muhammed Akbar, an AI/ML Specialist and Full Stack Developer. How can I help you today?";
 
-    if(text.includes("projects")) 
-        return "Check out my projects section: Angular, Spring Boot, AI, ML.";
+    if(text.includes("about") || text.includes("who is akbar") || text.includes("tell me about akbar")) {
+        return `I am Muhammed Akbar MMK, an AI/ML Specialist and Full Stack Developer based in Dubai, UAE.
+I build intelligent, scalable, and user-friendly applications using Python, Java, Spring Boot, Angular, and modern data technologies.
+I have worked on projects like AI chatbots, Traffic Sign Detection systems, Smart Surveillance, and Student Management Systems.
+I am passionate about Artificial Intelligence, Machine Learning, Web Development, and problem-solving.
+You can contact me at +971 508910562 or muhammedakbarakku905@gmail.com.`;
+    }
 
     if(text.includes("skills")) 
-        return "I know Java, Python, Angular, Spring Boot, ML, AI, and more.";
+        return "My key skills include: Java, Python, Angular, Spring Boot, Artificial Intelligence, Machine Learning, Deep Learning, NLP, TensorFlow, PyTorch, MySQL, and AWS.";
+
+    if(text.includes("projects")) 
+        return "I have worked on projects such as: Student Management System (Angular + Spring Boot), Traffic Sign Detection (Python + ML), AI Chatbot (Python + NLP), Smart Surveillance System (Deep Learning + YOLO), and Login/Registration Systems (Java + Spring Boot).";
 
     if(text.includes("experience")) 
-        return "I have experience as a Java Full Stack Developer and AI/ML Specialist.";
+        return "I have experience as a Java Full Stack Developer Trainee and AI/ML Specialist Trainee, working on enterprise applications, ML models, NLP pipelines, and computer vision projects.";
 
-    if(text.includes("contact")) 
-        return "You can reach me at +971 508910562 or via the contact form.";
+    if(text.includes("education")) 
+        return "I completed my Bachelor's in Computer Applications (BCA) with a focus on Robotics, Machine Learning, and Artificial Intelligence from Yenepoya University.";
 
-   if(text.includes("who is akbar") || text.includes("tell me about akbar") || text.includes("about akbar")) {
-    return "I am Muhammed Akbar MMK, an AI/ML Specialist and Java Full Stack Developer with experience in building intelligent, scalable, and user-friendly applications. I am passionate about Artificial Intelligence, Machine Learning, and Web Development, and I enjoy solving complex problems using Python, Java, Spring Boot, Angular, and modern data technologies. I have worked on projects ranging from AI chatbots to traffic sign detection systems and student management applications. My goal is to combine technical expertise with innovative solutions to make a meaningful impact in technology and real-world applications.";
-}
+    if(text.includes("contact") || text.includes("reach") || text.includes("phone") || text.includes("number")) 
+        return "You can reach me at +971 508910562, via email at muhammedakbarakku905@gmail.com, or through the contact form on my portfolio.";
 
+    if(text.includes("resume") || text.includes("cv")) 
+        return "You can download my resume from the following  [Resume]Option";
 
-    return "I am a Personal bot. Try saying 'hello', 'projects', 'skills', 'experience', 'contact', or 'ask about Akbar'.";
+    if(text.includes("location") || text.includes("where are you")) 
+        return "I am currently based in Dubai, United Arab Emirates.";
+
+    return "I am a personal assistant bot for Muhammed Akbar. You can ask me about his skills, projects, experience, education, location, contact info, or resume.";
 }
 
 
@@ -544,10 +592,27 @@ chatSend.addEventListener('click', sendMessage);
 chatInput.addEventListener('keypress', e => {
     if(e.key === 'Enter') sendMessage();
 });
-<!-- Footer -->
+
 
 
 </script>
+<script>
+const hamburger = document.querySelector(".hamburger");
+const menu = document.querySelector(".menu");
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("open");
+  menu.classList.toggle("active");
+});
+document.querySelectorAll('.menu a').forEach(link=>{
+  link.addEventListener('click',()=>{
+    menu.classList.remove('active');
+    hamburger.classList.remove('open');
+  });
+});
+
+</script>
+
 <footer>
     <p>&copy; 2026 Muhammed Akbar MMK. All rights reserved.</p>
     <div class="social-links" style="margin-top:10px;">
