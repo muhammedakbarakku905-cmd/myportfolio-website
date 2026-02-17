@@ -1,33 +1,24 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChatbotComponent } from './chatbot.component';
 
-interface Message {
-  sender: 'user' | 'bot';
-  text: string;
-}
+describe('ChatbotComponent', () => {
+  let component: ChatbotComponent;
+  let fixture: ComponentFixture<ChatbotComponent>;
 
-@Component({
-  selector: 'app-chatbot',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './chatbot.component.html',
-  styleUrls: ['./chatbot.component.css']
-})
-export class ChatbotComponent {
-  messages: Message[] = [];
-  userInput: string = '';
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ ChatbotComponent ]
+    })
+    .compileComponents();
+  });
 
-  sendMessage() {
-    if (!this.userInput.trim()) return;
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ChatbotComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    // Add user message
-    this.messages.push({ sender: 'user', text: this.userInput });
-
-    // Add bot response
-    this.messages.push({ sender: 'bot', text: `Bot says: ${this.userInput}` });
-
-    // Clear input
-    this.userInput = '';
-  }
-}
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
