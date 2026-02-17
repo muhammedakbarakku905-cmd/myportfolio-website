@@ -14,6 +14,7 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
+        "outputpath":"docs",
         "build": {
           "builder": "@angular/build:application",
           "options": {
@@ -70,6 +71,9 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
         
       }
